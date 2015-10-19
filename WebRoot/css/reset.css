@@ -1,0 +1,16 @@
+
+body, div { font-family: 'lucida grande', helvetica, verdana, arial, sans-serif }
+body { margin: 0; padding: 0; font-size: small; color: #333 }
+
+
+form.cmxform label.error, label.error {
+
+	color: red;
+	font-style: italic
+}
+div.error { display: none; }
+input {	border: 1px solid #999 ; }
+input.checkbox { border: none }
+input:focus { border: 1px dotted ; }
+input.error { border: 1px dotted red; }
+form.cmxform .gray * { color: gray; }

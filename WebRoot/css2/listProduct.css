@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+#productgridwrapper{
+    width:530px;
+	height:360px;
+	float:right;
+}
+#category{	
+	width:160px;
+	height:360px;
+	float:left;
+	overflow:auto;
+}

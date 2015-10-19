@@ -1,0 +1,20 @@
+* { font-family:"黑體-繁","Heiti TC", "微軟正黑體", "Microsoft JhengHei", "新細明體", "PMingLiU",; }
+body { font-size:14px; margin:0; padding:0; text-align:center; }
+p { margin:0 0 8px 25px; padding:0 5px 5px; line-height:1.6em; font-size:14px; color:#333333; }
+a { text-decoration:none; }
+a:hover { text-decoration:underline; }
+h2 { margin:5px 0 28px 10px; padding:0; color:#666; }
+h2 span { float:right; font-size:14px; color:grey; }
+h3 { margin:0 0 5px; padding:20px 1px 2px; line-height:1.2em; font-size:14px; color:#630; clear:left; border-bottom:1px dotted #333333; }
+ul { margin: 5px; padding:0 0 0 50px; }
+
+div.center { margin:0 auto; width:880px; text-align:left; }
+div.section { height:500px; }
+
+div#header { height:80px; margin:0; padding:0; }
+div#header div { float:left; }
+
+div#main { margin:10px; width:862px; }
+
+
+div#footer { margin:50px 10px 20px; padding:10px 0; border-top:1px dotted #630; text-align: center; color:#630; font-size: 12px; }

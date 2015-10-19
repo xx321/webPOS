@@ -1,0 +1,123 @@
+/******* CSS1 *******/
+/* Non table layout */
+fieldset p {
+	margin:10px ;
+	font-size:15px;  clear:left;
+}
+fieldset p #add1 {
+	margin-left:0px; width:150px;
+	float:left; display: inline;
+	color:#333; font-weight: bold; line-height:24px;
+	
+}
+/* ·j´M«ö¶s*/
+
+#BTN1,#BTN2{
+	background:url(../images/select.png) right no-repeat;  
+    padding:0 0 0 14px;
+    height:19px;
+
+}
+
+#BTN1:hover,#BTN2:hover {
+	border-color:#5794BF #B7D5EA #C7E2F1 #C5DAED;
+	background-image:url(../images/select-hover.png);
+}
+
+/* Field set */
+fieldset {
+	padding:10px; margin:0 0 15px;
+	background:#F7F7F7;
+	border:1px solid #CCC;
+	border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px;
+}
+fieldset legend {
+	font-size:12px;
+}
+
+/* Field icons */
+
+
+/* Search field */
+input.search {
+	background:#FFF url(../images/search.png) no-repeat left;
+	padding-left:21px;
+}
+input.init { color:#AAA; }
+
+/* Switch button */
+input.switch {
+	position:absolute; left:-9999px;
+}
+label.switchOff,
+label.switchOn {
+	width:auto; float:none; margin-left:auto; font-weight:normal;
+	padding:3px 0 3px 55px;
+	background-position:left;
+	background-repeat:no-repeat;
+}
+label.switchOff { background-image:url(../images/switch-off.gif) }
+label.switchOn { background-image:url(../images/switch-on.gif) }
+
+/* Large Button */
+button {
+	margin:0 3px 0 0; padding:0; width:180px;
+	border-width:1px; border-style:solid;
+	border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px;
+	border-color:#707070;
+	background:#F7F7F7 url(../images/large-button.png) top repeat-x;
+}
+button h6 {
+	margin:0; padding:7px;
+	font-size:16px; font-weight:normal; color:#333;
+	line-height:1em;
+}
+button p {
+	margin:0; padding:3px; width:175px;
+	font-size:10px;
+}
+button:hover {
+	border-color:#3C7FB1; 
+	background:#EAF6FD url(../images/large-button-hover.png) top repeat-x;
+}
+
+/******* CSS2 *******/
+/* Button */
+input[type="button"],
+input[type="submit"] {
+	border-width:1px; border-style:solid;
+	border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px;
+	border-color:#707070;
+	background:url(../images/button.png) center repeat-x;
+}
+input[type="button"]:hover,
+input[type="submit"]:hover {
+	border-color:#3C7FB1;
+	background:url(../images/button-hover.png) center repeat-x;
+}
+
+/* Text box */
+input[type="text"] {
+	background-color:#FFF;
+	border-width:1px; border-style:solid;
+	border-radius:2px; -webkit-border-radius:2px; -moz-border-radius:2px;
+	border-color:#ABADB3 #DBDFE6 #E3E9EF #E2E3EA;
+}
+input[type="text"]:hover,
+input[type="text"]:focus {
+	border-color:#5794BF #B7D5EA #C7E2F1 #C5DAED;
+}
+
+/* Selector */
+select {
+	-webkit-appearance:none; line-height:22px;
+	border-width:1px; border-style:solid;
+	border-radius:2px; -webkit-border-radius:2px; -moz-border-radius:2px;
+	border-color:#ABADB3 #DBDFE6 #E3E9EF #E2E3EA;
+	background:#FFF url(../images/select.png) right no-repeat;
+}
+select:hover {
+	border-color:#5794BF #B7D5EA #C7E2F1 #C5DAED;
+	background-image:url(../images/select-hover.png);
+}
+

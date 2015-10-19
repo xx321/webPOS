@@ -1,0 +1,24 @@
+* { font-family:"黑體-繁","Heiti TC", "微軟正黑體", "Microsoft JhengHei", "新細明體", "PMingLiU",; }
+body { margin:8px 0 0 0; padding:0; text-align:center; }
+p { margin:0 0 8px 25px; padding:0 5px 5px; font-size:14px; color:#333333; }
+a { text-decoration:none; }
+a:hover { text-decoration:underline; }
+h2 { margin:5px 0 30px; padding:0; color:#666; }
+h2 span { float:right; font-size:14px; color:grey; }
+h3 { margin:0 0 5px;  padding:20px 1px 2px; line-height:1em; font-size:14px; color:#630; clear:left; border-bottom:1px dotted #333333;  }
+ul { margin: 0; padding:0 0 0 20px; }
+h1{font-size:18px;   height:0; color:#630;}
+#top{width:200px; float:left; padding:0 0 0 32px; margin:5px 0 5px 0; }
+#topco{ float:left; padding:0 0 0 154px; margin:5px 0 5px 0;  }
+div.section { height:500px; }
+
+div#header {  margin:0; padding:0;  }
+div#header div { float:left; }
+div#logo1{width:990px; height:69px;  }
+div#main {  width:990px;  border:solid 1px  #CCCCCC;  height:730px; padding:20px 0 0 5px; background:url(../images/b1.jpg); box-shadow: 0px 0px 10px 5px rgba(0,0,0,.2);}
+
+div#menu { padding:30px 0 0 0; margin:0 20px 0 0; float:left; }
+
+div#content{ float:right; padding:0 0 0 0; }
+
+div#footer { margin:50px auto ; padding: 0; border-top:1px dotted #630; text-align: center; color:#630; font-size: 12px; width:1000px; }

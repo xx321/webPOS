@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+#gridwrapper{
+    width:862px;
+	height:550px;
+	
+}
+
+.center h4{
+	text-align:right;
+	
+	height:0;
+}

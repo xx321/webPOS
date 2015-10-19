@@ -1,0 +1,80 @@
+/******* CSS1 *******/
+/* Non table layout */
+
+
+/* Search field */
+input.search {
+	background:#FFF url(../images/search.png) no-repeat left;
+	padding-left:21px;
+}
+input.init { color:#AAA; }
+
+/* Switch button */
+input.switch {
+	position:absolute; left:-9999px;
+}
+
+
+/* Large Button */
+.butt button {
+	margin:0 3px 9px 0; padding:0; width:60px;
+	border-width:1px; border-style:solid;
+	border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px;
+	border-color:#707070;
+	background:#F7F7F7 url(../images/large-button.png) top repeat-x;
+}
+
+.butt button p {
+	margin:1px 0 0 0;
+	font-size:10px;
+}
+.butt button:hover {
+	border-color:#3C7FB1; 
+	background:#EAF6FD url(../images/large-button-hover.png) top repeat-x;
+}
+
+#menu button {
+   margin:0 0 7px 0; width:130px; height:80px;  
+
+}
+button h6 {
+
+	margin:0; padding:7px;
+	font-size:16px; font-weight:normal; color:#333;
+	line-height:1em;
+}
+
+
+/*°Ó«~¦Cªíbutton end*/
+button p {
+	margin:0; padding:3px; 
+	font-size:10px;
+}
+
+
+/******* CSS2 *******/
+/* Button */
+input[type="button"],
+input[type="submit"] {
+	border-width:1px; border-style:solid;
+	border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px;
+	border-color:#707070;
+	background:url(../images/button.png) center repeat-x;
+}
+input[type="button"]:hover,
+input[type="submit"]:hover {
+	border-color:#3C7FB1;
+	background:url(../images/button-hover.png) center repeat-x;
+}
+
+/* Text box */
+input[type="text"] {
+	background-color:#FFF;
+	border-width:1px; border-style:solid;
+	border-radius:2px; -webkit-border-radius:2px; -moz-border-radius:2px;
+	border-color:#ABADB3 #DBDFE6 #E3E9EF #E2E3EA;
+}
+input[type="text"]:hover,
+input[type="text"]:focus {
+	border-color:#5794BF #B7D5EA #C7E2F1 #C5DAED;
+}

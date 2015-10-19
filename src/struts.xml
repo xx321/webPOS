@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" 
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+	
+<struts>
+	<!-- 開發模式 -->
+	<constant name="struts.devMode" value="false" />
+	
+	<constant name="struts.objectFactory" value="spring"></constant> 
+
+ 		<package name="basePackage" extends="struts-default">
+			<!-- 置自定义拦截器 -->
+			<interceptors>
+				<!-- session拦截器 ，檢查session裡面的user是否為空。 -->
+				<interceptor name="sessionInterceptor" class="com.maxwell.pos.util.SessionInterceptor"></interceptor>
+				<interceptor-stack name="myDefaultStack">
+					<interceptor-ref name="defaultStack"/>
+					<interceptor-ref name="sessionInterceptor"/>
+				</interceptor-stack>
+			</interceptors>
+			
+			
+			<!-- 全局拦截器栈 , 置入此棧的拦截器會對所有的action做拦截-->
+<!-- 			<default-interceptor-ref name="myDefaultStack"></default-interceptor-ref> -->
+			<default-interceptor-ref name="myDefaultStack"></default-interceptor-ref>
+			<!-- 定義全局result -->
+			<global-results>
+					<result name="redirect_login" type="redirect">redirect_login.jsp</result>
+			</global-results>
+		</package> 
+		
+		
+		<package name="backstagePackage" extends="struts-default">
+					<!-- 置自定义拦截器 -->
+			<interceptors>
+				<!-- session拦截器 ，檢查session裡面的user是否為空。 -->
+				<interceptor name="sessionInterceptor" class="com.maxwell.pos.util.SessionInterceptor"></interceptor>
+				<interceptor-stack name="myDefaultStack">
+					<interceptor-ref name="defaultStack"/>
+					<interceptor-ref name="sessionInterceptor"/>
+				</interceptor-stack>
+				<!-- 权限拦截器 -->
+				<interceptor name="authInterceptor" class="com.maxwell.pos.util.AuthInterceptor" />
+				<interceptor-stack name="authStack">
+					<interceptor-ref name="myDefaultStack"></interceptor-ref>
+					<interceptor-ref name="authInterceptor">
+					</interceptor-ref>
+				</interceptor-stack>
+			</interceptors>
+			
+			
+			<!-- 全局拦截器栈 , 置入此棧的拦截器會對所有的action做拦截-->
+			<default-interceptor-ref name="authStack"></default-interceptor-ref>
+			<!-- 定義全局result -->
+			<global-results>
+					<result name="redirect_login" type="redirect">redirect_login.jsp</result>
+					<result name="noAuth" type="redirect">redirect_home.jsp</result>
+			</global-results>
+		</package> 
+	
+	
+	
+	
+	
+	<!--定義使用者登錄、退出所使用的action-->
+	<package name="user" namespace="/user" extends="struts-default">
+	
+		<action name="login" class="userAction" method="login">
+			<result name="success" type="redirect">/admin/index.jsp</result>
+			<result name="input">/login.jsp</result>
+		</action>
+ 		<action name="logout" class="userAction" method="logout">
+			<result name="success" type="redirect">/login.jsp</result>
+		</action>
+
+
+
+		<action name="getInvoiceInfo" class="tradeInvoiceAction" method="getInvoiceInfo">
+			<result name="success">/invoice.jsp</result>
+		</action>
+		<action name="printSuccess" class="tradeInvoiceAction" method="update">
+		</action>
+	</package>
+	
+	<!--定義使用者管理功能所使用的action，繼承basePackage使底下所有的action都受到自定義拦截器監控-->
+	<package name="admin" namespace="/admin" extends="basePackage">
+
+		<action name="listUser" class="userAction" method="list">
+			<result name="success">/admin/user_manager.jsp</result>
+			<result name="none">/admin/user.jsp</result>
+		</action>
+		<action name="changePassword" class="userAction" method="changePassword">
+			<result name="input">/admin/user/changePassword.jsp</result>
+			<result name="success" type="redirectAction">listUser</result>
+		</action>
+	
+		<action name="listCategory" class="categoryAction" method="list">
+			<result name="success">/admin/category.jsp</result>
+		</action>
+		<action name="editCategory" class="categoryAction" method="load">
+			<result name="success">/admin/category/editCategory.jsp</result>
+			<result name="input" type="redirectAction">listCategory</result>
+		</action>
+		<action name="updateCategory" class="categoryAction" method="update">
+			<result name="input">/admin/category/editCategory.jsp</result>
+			<result name="success" type="redirectAction">listCategory</result>
+		</action>
+		<action name="deleteCategory" class="categoryAction" method="delete">
+		</action>
+		<action name="addCategory" class="categoryAction" method="add">
+			<result name="input">/admin/category/addCategory.jsp</result>
+			<result name="success" type="redirectAction">listCategory</result>
+		</action>
+		<action name="datagridCategory" class="categoryAction" method="datagrid">
+		</action>
+		
+		
+		
+		<action name="editProduct" class="productAction" method="load">
+			<result name="editProductItem">/admin/productItem/editProductItem.jsp</result>
+			<result name="success">/admin/product/editProduct.jsp</result>
+			<result name="input">/admin/product.jsp</result>
+		</action>
+		<action name="updateProduct" class="productAction" method="update">
+			<result name="input">/admin/product/editProduct.jsp</result>
+			<result name="success">/admin/product.jsp</result>
+		</action>
+		<action name="deleteProduct" class="productAction" method="delete">
+		</action>
+		<action name="addProductPrepare" class="productAction" method="addPrepare">
+			<result name="success">/admin/product/addProduct.jsp</result>
+		</action>	
+		<action name="addProduct" class="productAction" method="add">
+			<result name="input">/admin/product/addProduct.jsp</result>
+			<result name="success">/admin/product.jsp</result>
+		</action>
+		<action name="datagridProduct" class="productAction" method="datagrid">
+		</action>		
+
+		
+		
+		<action name="productItemPrepare" class="productItemAction" method="productItemPrepare">
+		</action>
+		<action name="addProductItemPrepare" class="productItemAction" method="addPrepare">
+			<result name="success">/admin/productItem/addProductItem.jsp</result>
+		</action>	
+		<action name="addProductItem" class="productAction" method="add">
+			<result name="input">/admin/productItem/addProductItem.jsp</result>
+			<result name="success">/admin/product.jsp</result>
+		</action>
+		<action name="updateProductItem" class="productAction" method="update">
+			<result name="input">/admin/productItem/editProductItem.jsp</result>
+			<result name="success">/admin/product.jsp</result>
+		</action>		
+		<action name="addItem" class="productItemAction" method="add">
+		</action>
+		<action name="editProductItem" class="productItemAction" method="edit">
+		</action>		
+		<action name="deleteProductItem" class="productItemAction" method="deleteProductItem">
+		</action>	
+		<action name="productItemDataGrid" class="productItemAction" method="productItemDataGrid">
+		</action>		
+		
+		
+		
+		<action name="listHome" class="homeAction" method="list">
+			<result name="success">/admin/home.jsp</result>
+		</action>
+		<action name="loadProducts" class="homeAction" method="loadProducts">
+		</action>
+		<action name="tradeItemDataGrid" class="homeAction" method="tradeItemDataGrid">
+		</action>
+		<action name="loadTradeItem" class="homeAction" method="loadTradeItem">
+		</action>
+		<action name="deleteTradeItem" class="homeAction" method="deleteTradeItem">
+		</action>
+	
+		
+		<action name="loadCheckout" class="checkoutAction" method="load">
+			<result name="success">/admin/checkout.jsp</result>
+		</action>
+		<action name="addCheckout" class="checkoutAction" method="add">
+			<result name="success" >/admin/index.jsp</result>
+		</action>	
+		<action name="findCheckout" class="checkoutAction" method="find">
+			<result name="input">/admin/tradeitem.jsp</result>
+			<result name="success">/admin/tradeitem.jsp</result>
+		</action>
+		
+		
+<!--		<action name="listTrade" class="tradeAction" method="list">
+			<result name="input">/admin/trade.jsp</result>
+			<result name="success">/admin/trade.jsp</result>
+		</action> -->
+		<action name="addTrade" class="tradeAction" method="add">
+		</action>
+		<action name="findTrade" class="tradeAction" method="find">
+			<result name="success">/admin/trade.jsp</result>
+		</action>
+		<action name="datagridTrade" class="tradeAction" method="datagrid">
+		</action>
+		<action name="getTrade" class="tradeAction" method="get">
+			<result name="success">/admin/tradeitem/getTrade.jsp</result>
+		</action>
+		<action name="datagridByStatusTrade" class="tradeAction" method="datagridByStatus">
+		</action>
+		<action name="invalidTrade" class="tradeAction" method="updateInvalid">
+		</action>
+				
+		
+		
+		<action name="datagridTradeitem" class="tradeitemAction" method="datagrid">
+			<result name="input">/admin/tradeitem.jsp</result>
+		</action>
+		<action name="datagridByStatusTradeitem" class="tradeitemAction" method="datagridByStatus">
+		</action>
+		<action name="getDatagridByTradeId" class="tradeitemAction" method="getDatagridByTradeId">
+		</action>		
+		<action name="exportExcelTradeitem" class="tradeitemAction" method="exportExcel">
+		</action>
+
+
+
+		<action name="showInvoiceForFront" class="invoiceForFrontAction" method="load">
+			<result name="success">/admin/invoiceForFront.jsp</result>
+			<result name="input">/admin/index.jsp</result>
+		</action>	
+		<action name="editInvoiceForFront" class="invoiceForFrontAction" method="load">
+			<result name="success">/admin/invoiceForFront/editInvoiceForFront.jsp</result>
+			<result name="input" type="redirectAction">showInvoiceForFront</result>
+		</action>
+		<action name="updateInvoiceForFront" class="invoiceForFrontAction" method="update">
+			<result name="success" type="redirectAction">showInvoiceForFront</result>
+			<result name="input">/admin/invoiceForFront/editInvoiceForFront.jsp</result>
+		</action>
+		<action name="editInvoiceQuantity" class="invoiceForFrontAction" method="load">
+			<result name="success">/admin/invoiceForFront/editInvoiceQuantity.jsp</result>
+			<result name="input" type="redirectAction">showInvoiceForFront</result>
+		</action>
+		<action name="updateInvoiceQuantity" class="invoiceForFrontAction" method="update">
+			<result name="success" type="redirectAction">showInvoiceForFront</result>
+			<result name="input">/admin/invoiceForFront/editInvoiceQuantity.jsp</result>
+		</action>
+		
+		
+	</package>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!--定義後台管理功能所使用的action，繼承backstagePackage使底下所有的action都受到自定義拦截器監控-->
+	<package name="backstage" namespace="/admin" extends="backstagePackage">
+	
+	
+		<action name="editUser" class="userAction" method="load">
+			<result name="success">/admin/user/editUser.jsp</result>
+			<result name="input" type="redirectAction">listUser</result>
+		</action>
+		<action name="updateUser" class="userAction" method="update">
+			<result name="input">/admin/user/editUser.jsp</result>
+			<result name="success" type="redirectAction">listUser</result>
+		</action>
+		<action name="deleteUser" class="userAction" method="delete">
+		</action>
+		<action name="addUser" class="userAction" method="add">
+			<result name="input">/admin/user/addUser.jsp</result>
+			<result name="success" type="redirectAction">listUser</result>
+		</action>
+		<action name="datagridUser" class="userAction" method="datagrid">
+		</action>
+		<action name="auditPrepare" class="userAction" method="audit">
+		</action>
+	
+	
+	
+	
+		<action name="editProductStock" class="productAction" method="load">
+			<result name="success">/admin/stock/editStock.jsp</result>
+			<result name="input">/admin/stock.jsp</result>
+		</action>
+		<action name="updateProductStock" class="productAction" method="updateStock">
+			<result name="input">/admin/stock/editStock.jsp</result>
+			<result name="success">/admin/stock.jsp</result>
+		</action>
+		<action name="datagridStock" class="productAction" method="stockDatagrid">
+		</action>
+		
+		
+		
+		<action name="editProductBox" class="productAction" method="load">
+			<result name="success">/admin/productBox/editProductBox.jsp</result>
+			<result name="input">/admin/stock.jsp</result>
+		</action>
+		<action name="updateProductBox" class="productBoxAction" method="update">
+			<result name="success">/admin/stock.jsp</result>
+			<result name="input">/admin/productBox/editProductBox.jsp</result>
+		</action>		
+	
+	
+	
+	
+		<action name="addGoodsItem" class="goodsItemAction" method="add">
+		</action>
+		<action name="editGoodsItem" class="goodsItemAction" method="edit">
+		</action>
+		<action name="goodsItemDataGrid" class="goodsItemAction" method="goodsItemDataGrid">
+		</action>
+		<action name="deleteGoodsItem" class="goodsItemAction" method="deleteGoodsItem">
+		</action>	
+		<action name="getDatagridByIntoGoodsId" class="goodsItemAction" method="getDatagridByIntoGoodsId">
+		</action>		
+		
+		
+		
+		<action name="intoGoodsPrepare" class="intoGoodsAction" method="intoGoodsPrepare">
+		</action>
+		<action name="addIntoGoods" class="intoGoodsAction" method="add">
+			<result name="input">/admin/intoGoods/addIntoGoods.jsp</result>
+			<result name="success">/admin/intoGoods.jsp</result>
+		</action>
+		<action name="editIntoGoods" class="intoGoodsAction" method="load">
+			<result name="success">/admin/intoGoods/editIntoGoods.jsp</result>
+ 			<result name="input">/admin/intoGoods.jsp</result>
+		</action>
+		<action name="updateIntoGoods" class="intoGoodsAction" method="update">
+			<result name="success">/admin/intoGoods.jsp</result>
+ 			<result name="input">/admin/intoGoods/editIntoGoods.jsp</result>
+		</action>
+		<action name="addPurchase" class="intoGoodsAction" method="add">
+			<result name="input">/admin/intoGoods/addPurchase.jsp</result>
+			<result name="success">/admin/purchase.jsp</result>
+		</action>
+		<action name="editPurchase" class="intoGoodsAction" method="load">
+			<result name="success">/admin/intoGoods/editPurchase.jsp</result>
+ 			<result name="input">/admin/purchase.jsp</result>
+		</action>
+		<action name="updatePurchase" class="intoGoodsAction" method="update">
+			<result name="success">/admin/purchase.jsp</result>
+ 			<result name="input">/admin/intoGoods/editPurchase.jsp</result>
+		</action>
+		<action name="closedPurchase" class="intoGoodsAction" method="load">
+			<result name="success">/admin/intoGoods/closedPurchase.jsp</result>
+ 			<result name="input">/admin/purchase.jsp</result>
+		</action>
+		<action name="updateClosedPurchase" class="intoGoodsAction" method="update">
+			<result name="success">/admin/intoGoods.jsp</result>
+ 			<result name="input">/admin/intoGoods/closedPurchase.jsp</result>
+		</action>
+		<action name="deleteIntoGoods" class="intoGoodsAction" method="delete">
+		</action>
+		<action name="auditIntoGoods" class="intoGoodsAction" method="updateAudit">
+		</action>
+		<action name="auditMoreIntoGoods" class="intoGoodsAction" method="updateMoreAudit">
+		</action>		
+		<action name="datagridIntoGoods" class="intoGoodsAction" method="datagrid">
+		</action>
+		<action name="datagridPurchase" class="intoGoodsAction" method="Purchasedatagrid">
+		</action>	
+		<action name="printIntoGoods" class="intoGoodsAction" method="print">
+			<result name="success">/admin/intoGoods/PaymentPrint.jsp</result>
+ 			<result name="input">/admin/intoGoods.jsp</result>
+		</action>
+		<action name="printMoreIntoGoods" class="intoGoodsAction" method="printMore">
+			<result name="success">/admin/intoGoods/PaymentPrintMore.jsp</result>
+ 			<result name="input">/admin/intoGoods.jsp</result>
+		</action>
+		<action name="printPurchase" class="intoGoodsAction" method="print">
+			<result name="success">/admin/intoGoods/purchaseprint.jsp</result>
+ 			<result name="input">/admin/purchase.jsp</result>
+		</action>
+		<action name="getDatagridByIntoGoodsIds" class="intoGoodsAction" method="getDatagridByIntoGoodsIds">
+		</action>
+				
+		
+		
+		<action name="addSupplier" class="supplierAction" method="add">
+			<result name="input">/admin/supplier/addSupplier.jsp</result>
+			<result name="success">/admin/supplier.jsp</result>
+		</action>
+		<action name="editSupplier" class="supplierAction" method="load">
+			<result name="success">/admin/supplier/editSupplier.jsp</result>
+ 			<result name="input">/admin/supplier.jsp</result>
+		</action>	
+		<action name="updateSupplier" class="supplierAction" method="update">
+			<result name="input">/admin/supplier/editSupplier.jsp</result>
+			<result name="success">/admin/supplier.jsp</result>
+		</action>	
+		<action name="deleteSupplier" class="supplierAction" method="delete">
+		</action>
+		<action name="datagridSupplier" class="supplierAction" method="datagrid">
+		</action>	
+		
+
+		
+		<action name="addSellitem" class="sellitemAction" method="add">
+		</action>
+		<action name="editSellitem" class="sellitemAction" method="edit">
+		</action>
+		<action name="sellitemDataGrid" class="sellitemAction" method="sellitemDataGrid">
+		</action>
+		<action name="deleteSellitem" class="sellitemAction" method="deleteSellitem">
+		</action>	
+		<action name="getDatagridBySellId" class="sellitemAction" method="getDatagridBySellId">
+		</action>		
+		
+		
+		<action name="sellPrepare" class="sellAction" method="sellPrepare">
+		</action>
+		<action name="addSell" class="sellAction" method="add">
+			<result name="input">/admin/sell/addSell.jsp</result>
+			<result name="success">/admin/sell.jsp</result>
+		</action>
+		<action name="editSell" class="sellAction" method="load">
+			<result name="success">/admin/sell/editSell.jsp</result>
+ 			<result name="input">/admin/sell.jsp</result>
+		</action>
+		<action name="updateSell" class="sellAction" method="update">
+			<result name="success">/admin/sell.jsp</result>
+ 			<result name="input">/admin/sell/editSell.jsp</result>
+		</action>		
+		<action name="addQuotation" class="sellAction" method="add">
+			<result name="input">/admin/sell/addQuotation.jsp</result>
+			<result name="success">/admin/quotation.jsp</result>
+		</action>
+		<action name="editQuotation" class="sellAction" method="load">
+			<result name="success">/admin/sell/editQuotation.jsp</result>
+ 			<result name="input">/admin/quotation.jsp</result>
+		</action>
+		<action name="updateQuotation" class="sellAction" method="update">
+			<result name="success">/admin/quotation.jsp</result>
+ 			<result name="input">/admin/sell/editQuotation.jsp</result>
+		</action>
+		<action name="closedQuotation" class="sellAction" method="load">
+			<result name="success">/admin/sell/closedQuotation.jsp</result>
+ 			<result name="input">/admin/quotation.jsp</result>
+		</action>	
+		<action name="updateClosedQuotation" class="sellAction" method="update">
+			<result name="success">/admin/sell.jsp</result>
+ 			<result name="input">/admin/sell/closedQuotation.jsp</result>
+		</action>		
+		<action name="deleteSell" class="sellAction" method="delete">
+		</action>
+		<action name="auditSell" class="sellAction" method="updateAudit">
+		</action>		
+		<action name="auditMoreSell" class="sellAction" method="updateMoreAudit">
+		</action>
+		<action name="datagridSell" class="sellAction" method="datagrid">
+		</action>
+		<action name="datagridQuotation" class="sellAction" method="Quotationdatagrid">
+		</action>
+		<action name="printSell" class="sellAction" method="print">
+			<result name="success">/admin/sell/salesprint.jsp</result>
+ 			<result name="input">/admin/sell.jsp</result>
+		</action>
+		<action name="printQuotation" class="sellAction" method="print">
+			<result name="success">/admin/sell/quotedpriceprint.jsp</result>
+ 			<result name="input">/admin/quotation.jsp</result>
+		</action>
+		<action name="getDatagridBySellIds" class="sellAction" method="getDatagridBySellIds">
+		</action>			
+		
+		
+		<action name="addCustomer" class="customerAction" method="add">
+			<result name="input">/admin/customer/addCustomer.jsp</result>
+			<result name="success">/admin/customer.jsp</result>
+		</action>
+		<action name="editCustomer" class="customerAction" method="load">
+			<result name="success">/admin/customer/editCustomer.jsp</result>
+ 			<result name="input">/admin/customer.jsp</result>
+		</action>	
+		<action name="updateCustomer" class="customerAction" method="update">
+			<result name="input">/admin/customer/editCustomer.jsp</result>
+			<result name="success">/admin/customer.jsp</result>
+		</action>	
+		<action name="deleteCustomer" class="customerAction" method="delete">
+		</action>		
+		<action name="datagridCustomer" class="customerAction" method="datagrid">
+		</action>			
+
+
+		<action name="backstagePrepare" class="backstageAction" method="backstagePrepare">
+		</action>
+		
+		
+		<action name="addSubject" class="subjectAction" method="add">
+			<result name="input">/admin/subject/addSubject.jsp</result>
+			<result name="success">/admin/subject.jsp</result>
+		</action>
+		<action name="editSubject" class="subjectAction" method="load">
+			<result name="success">/admin/subject/editSubject.jsp</result>
+			<result name="input">/admin/subject.jsp</result>
+		</action>
+		<action name="updateSubject" class="subjectAction" method="update">
+			<result name="input">/admin/subject/editSubject.jsp</result>
+			<result name="success">/admin/subject.jsp</result>
+		</action>
+		<action name="deleteSubject" class="subjectAction" method="delete">
+		</action>
+		<action name="datagridSubject" class="subjectAction" method="datagrid">
+		</action>
+		
+		
+		
+		<action name="addSpendingItem" class="spendingItemAction" method="add">
+		</action>
+		<action name="editSpendingItem" class="spendingItemAction" method="edit">
+		</action>	
+		<action name="spendingItemDataGrid" class="spendingItemAction" method="spendingItemDataGrid">
+		</action>
+		<action name="deleteSpendingItem" class="spendingItemAction" method="deleteSpendingItem">
+		</action>		
+		<action name="getDatagridByPettyCashId" class="spendingItemAction" method="getDatagridByPettyCashId">
+		</action>
+
+
+
+		<action name="pettyCashPrepare" class="pettyCashAction" method="pettyCashPrepare">
+		</action>	
+		<action name="addPettyCash" class="pettyCashAction" method="add">
+			<result name="input">/admin/pettyCash/addPettyCash.jsp</result>
+			<result name="success">/admin/pettyCash.jsp</result>
+		</action>
+		<action name="editPettyCash" class="pettyCashAction" method="load">
+			<result name="success">/admin/pettyCash/editPettyCash.jsp</result>
+ 			<result name="input">/admin/pettyCash.jsp</result>
+		</action>	
+		<action name="updatePettyCash" class="pettyCashAction" method="update">
+			<result name="success">/admin/pettyCash.jsp</result>
+ 			<result name="input">/admin/pettyCash/editPettyCash.jsp</result>
+		</action>	
+		<action name="deletePettyCash" class="pettyCashAction" method="delete">
+		</action>	
+		<action name="auditPettyCash" class="pettyCashAction" method="updateAudit">
+		</action>		
+		<action name="datagridPettyCash" class="pettyCashAction" method="datagrid">
+		</action>			
+	
+	
+	
+		<action name="addPayment" class="paymentAction" method="add">
+		</action>
+		<action name="exportExcelLastPayment" class="paymentAction" method="exportLastPaymentExcel">
+		</action>		
+	
+	
+		<action name="addIncome" class="incomeAction" method="add">
+		</action>
+		<action name="exportExcelLastIncome" class="incomeAction" method="exportLastIncomeExcel">
+		</action>	
+	
+	
+	
+	
+		<action name="findIncomeStatement" class="reportAction" method="findIncomeStatement">
+			<result name="input">/admin/finance/IncomeStatement.jsp</result>
+			<result name="success">/admin/finance/IncomeStatement.jsp</result>
+		</action>
+	
+	</package>
+</struts>    

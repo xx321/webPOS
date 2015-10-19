@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<field name="invoiceForFront.invoiceCoding">
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>發票編碼不能為空 ! </message>
+		</field-validator>
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="minLength">2</param>
+			<param name="maxLength">2</param>
+			<message>發票編碼的字符長度應該為${minLength}</message>
+		</field-validator>
+	</field>
+	
+
+	<field name="invoiceForFront.invoiceNumber">
+		<field-validator type="required" short-circuit="true">
+			<message>發票號碼未填 ! </message>
+		</field-validator>
+		<field-validator type="int" short-circuit="true">
+			<param name="min">10000000</param>
+			<param name="max">99999999</param>
+			<message>發票號碼應該在8位數之間</message>
+		</field-validator>
+	</field>
+
+</validators>

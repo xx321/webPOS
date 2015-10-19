@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-2.5.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- spring 配置啟用 annotation 註解模式 -->
+	<context:annotation-config />
+
+	<!-- spring 自動掃描所指定的包名下，所有的bean，取得component (元件) -->
+	<context:component-scan base-package="com.maxwell"></context:component-scan>
+	
+	<!-- 配置spring 取得properties，參數 -->
+	<bean
+		class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+		<property name="locations">
+			<value>classpath:jdbc.properties</value>
+		</property>
+	</bean>
+
+	<!-- 配置dataSource 設定參數(參數使用${} 取得properties 裡的所對應參數) -->
+	<!-- 配置數據源 (這裡用的是c3p0數據源)-->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+
+		<property name="driverClass" value="${jdbc.driverClassName}"></property>
+		<property name="jdbcUrl" value="${jdbc.url}"></property>
+		<property name="user" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+
+
+		<!-- ##初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+		<property name="initialPoolSize" value="${c3p0.initialPoolSize}"></property>
+		<!-- ##连接池中保留的最小连接数 -->
+		<property name="minPoolSize" value="${c3p0.minPoolSize}"></property>
+		<!-- ##连接池中保留的最大连接数,Default: 15 -->
+		<property name="maxPoolSize" value="${c3p0.maxPoolSize}"></property>
+		<!-- ##最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+		<property name="maxIdleTime" value="${c3p0.maxIdleTime}"></property>
+		<!-- ##当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+		<property name="acquireIncrement" value="${c3p0.acquireIncrement}"></property>
+		<!-- ##每60秒检查所有连接池中的空闲连接。Default: 0 -->
+		<property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}"></property>
+		<!-- ##定义在从数据库获取新连接失败后重复尝试的次数。Default: 30  -->
+		<property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttempts}"></property>
+		<!-- ##获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效
+			保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试
+			获取连接失败后该数据源将申明已断开并永久关闭。Default: false -->
+		<property name="breakAfterAcquireFailure" value="${c3p0.breakAfterAcquireFailure}"></property>
+		<!-- ##JDBC的标准参数，用以控制数据源内加载的PreparedStatements数量。但由于预缓存的statements
+			属于单个connection而不是整个连接池。所以设置这个参数需要考虑到多方面的因素。
+			如果maxStatements与maxStatementsPerConnection均为0，则缓存被关闭。Default: 0 -->
+		<property name="maxStatements" value="${c3p0.maxStatements}"></property>
+		<!-- ##因性能消耗大请只在需要的时候使用它。如果设为true那么在每个connection提交的
+			时候都将校验其有效性。建议使用idleConnectionTestPeriod或automaticTestTable
+			等方法来提升连接测试的性能。Default: false -->
+		<property name="testConnectionOnCheckout" value="${c3p0.testConnectionOnCheckout}"></property>
+		
+	</bean>
+
+
+	<!-- 配置Hibernate 的 sessionFactory Bean -->
+	<bean id="sf"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+
+		<property name="dataSource" ref="dataSource" />
+		<!-- 配置hibernate 裡 所有的實體類 (1個1個配置) -->
+		<!-- <property name="annotatedClasses"> <list> <value>com.maxwell.model.User</value> 
+			<value>com.maxwell.model.Log</value> 3... 4... 5... </list> </property> -->
+		<!-- 使用 packagesToScan 自動掃描 所指定的包下面 所有的類，取得 hibernate 的實體類(Entity) -->
+		<property name="packagesToScan">
+			<list>
+				<value>com.maxwell.pos.model</value>
+			</list>
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				
+				<!-- 設置 Hibernate 二級緩存 -->
+				<prop key="hibernate.cache.provider_class">${cache.provider_class}</prop>
+    			<prop key="hibernate.cache.use_query_cache">${cache.use_query_cache}</prop>
+    			<prop key="hibernate.cache.use_second_level_cache">${cache.use_second_level_cache}</prop>
+    			<prop key="hibernate.cache.configurationResourceName">${cache.configurationResourceName}</prop> 
+			</props>
+		</property>
+		
+	</bean>
+
+	<!-- 配置 hibernate 事務管理 -->
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+
+		<property name="sessionFactory" ref="sf" />
+	</bean>
+
+	<!-- 配置hibernateTemplate 注入 sessionFactory Bean -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sf" />
+	</bean>
+
+	<!-- 使用 AOP 配置事務管理 -->
+	<aop:config>
+		<aop:pointcut expression="execution(public * com.maxwell.pos.service..*.*(..))"
+			id="bussinessService" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="bussinessService" />
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<!-- <tx:method name="getUser" read-only="true" /> 設定bussinessService裡面某個方法 
+				為 只讀 -->
+			<tx:method name="changePassword" read-only="false" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="add*" propagation="REQUIRED" read-only="false" />
+			
+			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="load*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="search*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="datagrid*" propagation="REQUIRED" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 配置一個java bean supperDAO (繼承HibernateDaoSupper) 注入sessionFactory -->
+	<!-- 配置完後 ， 所有Dao 的實現繼承 supperDAO 之後就不用再注入sessionFactory -->
+	<!-- <bean id="supperDAO" class="com.maxwell.impl.SupperDAO"> <property 
+		name="sessionFactory" ref="sessionFactory"></property> </bean> -->
+</beans>

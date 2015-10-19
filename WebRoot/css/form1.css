@@ -1,0 +1,21 @@
+button {
+	margin:30px 0 0 340px; padding:0; width:180px;
+	border-width:1px; border-style:solid;
+	border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px;
+	border-color:#707070;
+	background:#F7F7F7 url(../images/large-button.png) top repeat-x;	
+}
+button h6 {
+	margin:0 auto; padding:7px;
+	font-size:16px; font-weight:normal; color:#333;
+	line-height:1em;
+}
+button p {
+	margin:0 auto; padding:3px; width:175px;
+	font-size:10px;
+}
+button:hover {
+	border-color:#3C7FB1; 
+	background:#EAF6FD url(../images/large-button-hover.png) top repeat-x;
+}
+

@@ -1,0 +1,84 @@
+#wrapper{
+	margin:0 auto;
+	padding:0;
+	width:750px;
+}
+
+#logo{
+	margin:0;
+	padding:10px 0 30px 0 ;
+}
+#main {  
+width:700px;   height:630px; padding:20px 0 0 5px;
+}
+
+#bse{
+   margin:10px 0 0 10px;
+   float:left;
+   width:210px;
+   height:170px;
+   text-align:center;
+}
+
+a{
+	
+	
+	line-height:1em;
+	
+
+}
+
+.css_cost {
+	font-weight:bold;
+	font-size:25px;
+	font-family:'微軟正黑體';
+	font-weight:500;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #eeb44f;
+	padding:25px 20px 10px 20px;
+	text-decoration:none;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(5%, #fae4bd), color-stop(100%, #e6a947) );
+	background:-moz-linear-gradient( center top, #fae4bd 5%, #e6a947 100% );
+	background:-ms-linear-gradient( top, #fae4bd 5%, #e6a947 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fae4bd', endColorstr='#e6a947');
+	background-color:#fae4bd;
+	color:#ffffff;
+	display:inline-block;
+	text-shadow:1px 1px 1px #cc9f52;
+ 	-webkit-box-shadow:inset 1px 1px 14px 0px #fcf8f2;
+ 	-moz-box-shadow:inset 1px 1px 14px 0px #fcf8f2;
+ 	box-shadow:inset 1px 1px 14px 0px #fcf8f2;
+	height:110px;
+	width:140px;
+}.css_cost:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(5%, #e6a947), color-stop(100%, #fae4bd) );
+	background:-moz-linear-gradient( center top, #e6a947 5%, #fae4bd 100% );
+	background:-ms-linear-gradient( top, #e6a947 5%, #fae4bd 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6a947', endColorstr='#fae4bd');
+	background-color:#e6a947;
+}.css_cost:active {
+	position:relative;
+	top:1px;
+}
+
+button {
+	margin:30px 0 0 340px; padding:0; width:180px;
+	border-width:1px; border-style:solid;
+	border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px;
+	border-color:#707070;
+	background:#F7F7F7 url(../images/large-button.png) top repeat-x;	
+}
+
+
+button p {
+	margin:0 auto; padding:3px; width:175px;
+	font-size:10px;
+}
+button:hover {
+	border-color:#3C7FB1; 
+	background:#EAF6FD url(../images/large-button-hover.png) top repeat-x;
+}
+
+

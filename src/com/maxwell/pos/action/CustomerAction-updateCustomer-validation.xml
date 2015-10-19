@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	
+	<field name="customer.name">
+		<field-validator type="requiredstring" short-circuit="true">
+			<param name="trim">true</param>
+			<message>客戶名稱未填</message>
+		</field-validator>
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="minLength">1</param>
+			<param name="maxLength">15</param>
+			<message>客戶名稱的字符長度應該小於${maxLength}</message>
+		</field-validator>
+	</field>
+	
+	<field name="customer.description">
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="minLength">0</param>
+			<param name="maxLength">200</param>
+			<message>描述的字符長度應該在${minLength}到${maxLength}之間</message>
+		</field-validator>
+	</field>
+
+</validators>
